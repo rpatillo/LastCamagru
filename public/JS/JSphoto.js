@@ -89,26 +89,6 @@
         ev.preventDefault();
     }, false);
 
-    // refresh.addEventListener('click', function (ev) {
-    //     for (var i = 0; i < onclick_del.length; i++) {
-    //         (function (i) {
-    //             onclick_del[i].onclick = function (ev) {
-    //                 var xhttp = new XMLHttpRequest();
-    //                 xhttp.onreadystatechange = function () {
-    //                     if (xhttp.readyState == 4 && xhttp.status == 200) {
-    //                         document.getElementById('result').innerHTML = 'Deleted';
-    //                         aside.innerHTML = xhttp.responseText;
-    //                     }
-    //                 };
-    //                 xhttp.open("POST", "/includes/delpic.php", true);
-    //                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    //                 xhttp.send('id=' + this.id);
-    //                 ev.preventDefault();
-    //             };
-    //         }(i));
-    //     }
-    // }, false);
-
     function test () {
         for (var i = 0; i < onclick_del.length; i++) {
             (function (i) {
@@ -129,18 +109,40 @@
         }
     }
 
+    video.style.display = 'none';
 
     window.onload = function() {
-        streamFeed();
-        video.style.display = 'none';
+        streamFeed_vid();
     };
 
-    function streamFeed() {
+    var b_video = document.querySelector('#b_video');
+    var b_upload = document.querySelector('#b_upload');
+
+    b_upload.style.display = 'none';
+    b_video.addEventListener('click', function (ev) {
+        streamFeed_vid();
+    },false);
+
+    b_upload.addEventListener('click', function (ev) {
+        streamFeed_img();
+    },false);
+
+    function streamFeed_vid() {
         XVal = 100;
         var context = feed.getContext('2d');
 
-        requestAnimationFrame(streamFeed);
+        requestAnimationFrame(streamFeed_vid);
         context.drawImage(video, 0, 0, feed.width, feed.height);
+        context.drawImage(t_photo[select - 1], x, y);
+        test();
+    };
+
+    function streamFeed_img() {
+        XVal = 100;
+        var context = feed.getContext('2d');
+
+        requestAnimationFrame(streamFeed_img);
+        context.drawImage(img, 0, 0, feed.width, feed.height);
         context.drawImage(t_photo[select - 1], x, y);
         test();
     };
@@ -165,6 +167,35 @@
             };
         }(i));
     }
+
+    // UPLOAD PART
+    var imageLoader = document.getElementById('imageLoader');
+    imageLoader.addEventListener('change', handleImage, false);
+    var ctxf = feed.getContext('2d');
+
+    var img;
+    img = null;
+    function handleImage(e){
+        var reader = new FileReader();
+        reader.onload = function(event){
+            img = new Image();
+            img.onload = function(){
+                if (!img.name.match(/\.(jpg|jpeg|png)$/)) {
+                    b_upload.style.display = '';
+                    ctxf.drawImage(img,0,0);
+                    window.onload = null;
+                } else {
+                    window.onload = function() {
+                        streamFeed_vid();
+                    };
+                }
+            }
+            img.src = event.target.result;
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    }
+
+
 
 })();
 

@@ -22,17 +22,21 @@ class Photos
     public function savePic($photo, $username) {
         if (isset($photo) && isset($username)) {
             $array = array($photo, $username);
-            $req = $this->db->prepare('INSERT INTO photo VALUES ( ?, ? , NULL)', $array, NULL, false, true);
+            $this->db->prepare('INSERT INTO photo VALUES ( ?, ? , NULL)', $array, NULL, false, true);
             return true;
         }
         return false;
     }
 
-    public function printPic($username = NULL) {
-        if (isset($username)) {
-            $pict = $this->db->query('SELECT * FROM photo WHERE username=\''. $username . '\'');
+    public function printPic($username = NULL, $cPage = NULL, $perPage = NULL) {
+        if (isset($perPage) && isset($cPage)) {
+            $pict = $this->db->query('SELECT * FROM photo LIMIT ' . (($cPage-1)*$perPage) . ',' . $perPage);
         } else {
-            $pict = $this->db->query('SELECT * FROM photo');
+            if (isset($username)) {
+                $pict = $this->db->query('SELECT * FROM photo WHERE username=\''. $username . '\'');
+            } else {
+                $pict = $this->db->query('SELECT * FROM photo');
+            }
         }
         return $pict;
     }
@@ -60,5 +64,9 @@ class Photos
 
     public function printLikes($id_photo) {
         return $this->db->query('SELECT COUNT(*) FROM likes WHERE id_photo=\'' . $id_photo . '\'', 'count');
+    }
+
+    public function nb_pict() {
+        return $this->db->query('SELECT COUNT(*) AS nbPict FROM photo');
     }
 }

@@ -3,6 +3,9 @@ $auth = new \Core\Auth\Photos(App::getInstance()->getDb());
 $result = $auth->printPic($_SESSION['auth']);
 ?>
 <article>
+    <button id="b_video">Video Mode</button>
+    <button id="b_upload">Upload Mode</button>
+    <br />
     <div id="image_area">
         <video id="video"></video>
         <canvas id="feed"></canvas>
@@ -11,6 +14,10 @@ $result = $auth->printPic($_SESSION['auth']);
     </div>
     <button id="startbutton">Take a picture</button>
     <button id="savebutton">Save</button>
+    <br />
+    <label>Image File:</label><br/>
+    <input type="file" id="imageLoader" name="imageLoader"/>
+    <canvas id="imageCanvas"></canvas>
     <br />
 
     <div id="result"></div>
@@ -41,6 +48,7 @@ $result = $auth->printPic($_SESSION['auth']);
 </article>
 
 <aside id="aside" style="max-height: 750px; overflow-y:scroll; width: 43%">
+    Clic to delete.
     <br />
     <?PHP foreach($result as $post) : ?>
     <img src="<?=$post->photo?>" name="onclick_del" id="<?=$post->id?>"/>

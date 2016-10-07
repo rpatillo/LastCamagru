@@ -3,7 +3,6 @@ if (!empty($_POST)) {
     $auth = new \Core\Auth\DBAuth(App::getInstance()->getDb());
     if ($_POST['password'] === $_POST['verif_pass']) {
         if ($auth->subscribe($_POST['login'], $_POST['password'], $_POST['mail'])) {
-            $auth->mail($_POST['login'], $_POST['mail']);
             ?>
             <div>
                 <strong>Account created.</strong> <br/>
@@ -47,6 +46,10 @@ $form = new \Core\HTML\BootstrapForm($_POST);
         </div>
     </div>
     <br />
-    TODO: Unable password reset <br />
-    TODO: Upload image <br />
 </div>
+
+TODO: Verif Img #Photo <br />
+TODO: Pagination <br />
+TODO: http://stackoverflow.com/questions/1996122/how-to-prevent-xss-with-html-php XSS <br />
+TODO: Verif PASSWORD 1 maj 1 min 1 chiffre <br />
+TODO: http://php.net/manual/en/function.strip-tags.php ? <br />

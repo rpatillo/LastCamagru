@@ -31,19 +31,42 @@ class DBAuth {
     /**
      * @param $login
      * @param $password
+     * @param $email
      */
     public function subscribe($login, $password, $email) {
+        $temp = $this->random();
         $hash = hash('whirlpool', $password);
         if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
             return false;
         }
-        $array = array($login, $hash, $email);
+        $array = array($login, $hash, $email, $temp, 0);
         $user = $this->db->prepare('SELECT * FROM users WHERE username = ?', [$login], NULL, true);
         if (!$user) {
-            $this->db->prepare('INSERT INTO users VALUES ( ?, ?, ?, NULL)', $array, NULL, false, true);
+            $this->db->prepare('INSERT INTO users VALUES ( ?, ?, ?, ?, ?, NULL)', $array, NULL, false, true);
+            $body = 'Please, validate your account by clicking on this link : http://localhost:8080/index.php?p=validate&u=' . $login . '&t=' . $temp;
+            $this->mail($login, $email, $body, $subject);
             return true;
         }
         return false;
+    }
+
+    public function isValid($login, $token = NULL, $ask = NULL) {
+        if ($ask === NULL) {
+            $array = array($login, $token);
+            $ret = $this->db->prepare('SELECT * FROM users WHERE username=? AND hashKey=?', $array, NULL, true);
+            if ($ret) {
+                $this->db->query('UPDATE users SET is_valid=1 WHERE username=\'' . $login . '\'');
+                echo 'You\' successfully registered to Camagru ! Welcome !';
+            } else {
+                echo 'Something went wrong...';
+            }
+        } else {
+            $ret = $this->db->prepare('SELECT * FROM users WHERE username=? AND is_valid=1', [$login], NULL, true);
+            if ($ret)
+                return true;
+            else
+                return false;
+        }
     }
 
     public function mail($login, $mail, $body = NULL, $subject = NULL) {
@@ -60,7 +83,8 @@ class DBAuth {
     public function getMail($login) {
         return $this->db->query('SELECT mail FROM users WHERE username=\'' . $login . '\'');
     }
-    
+
+
     /**
      * @param $username
      * @param $password
@@ -77,7 +101,7 @@ class DBAuth {
         return false;
     }
 
-    public function resetPass($login) {
+    public function random() {
         $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
         $pass = array(); //remember to declare $pass as an array
         $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
@@ -85,7 +109,11 @@ class DBAuth {
             $n = rand(0, $alphaLength);
             $pass[] = $alphabet[$n];
         }
-        $temppass =  implode($pass); //turn the array into a string
+        return (implode($pass)); //turn the array into a string
+    }
+
+    public function resetPass($login) {
+        $temppass = $this->random();
         $body = 'Your new password is ' . $temppass . ' consider changing it quickly !';
         $subject = 'You\'ve juste reset your password.';
         $mail = $this->getMail($login);
