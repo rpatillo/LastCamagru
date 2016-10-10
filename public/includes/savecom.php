@@ -30,7 +30,8 @@ function RetCom($id) {
 if (!empty($_POST)) {
     $auth = new \Core\Auth\Photos(App::getInstance()->getDb());
     $auth2 = new \Core\Auth\DBAuth(App::getInstance()->getDb());
-    $auth->saveCom($_POST['t'], $_POST['u'], $_POST['id']);
+    $tmp = strip_tags($_POST['t']);
+    $auth->saveCom($tmp, $_POST['u'], $_POST['id']);
     $mail = $auth2->getMail($_POST['o']);
     $mail = $mail[0]->mail;
     $body = 'Hi ! Your photo as received a comments.';

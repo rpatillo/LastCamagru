@@ -14,6 +14,7 @@ if (!empty($_POST)) {
             <div>
                 <strong>Oh snap !</strong> <br/>
                 Something was wrong.
+                Be sure to pick 1 uppercase letter, 1 lowercase letter and 1 digit.
             </div>
             <?PHP
         }
@@ -47,9 +48,3 @@ $form = new \Core\HTML\BootstrapForm($_POST);
     </div>
     <br />
 </div>
-
-TODO: Verif Img #Photo <br />
-TODO: Pagination <br />
-TODO: http://stackoverflow.com/questions/1996122/how-to-prevent-xss-with-html-php XSS <br />
-TODO: Verif PASSWORD 1 maj 1 min 1 chiffre <br />
-TODO: http://php.net/manual/en/function.strip-tags.php ? <br />

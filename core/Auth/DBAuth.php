@@ -34,18 +34,20 @@ class DBAuth {
      * @param $email
      */
     public function subscribe($login, $password, $email) {
-        $temp = $this->random();
-        $hash = hash('whirlpool', $password);
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-            return false;
-        }
-        $array = array($login, $hash, $email, $temp, 0);
-        $user = $this->db->prepare('SELECT * FROM users WHERE username = ?', [$login], NULL, true);
-        if (!$user) {
-            $this->db->prepare('INSERT INTO users VALUES ( ?, ?, ?, ?, ?, NULL)', $array, NULL, false, true);
-            $body = 'Please, validate your account by clicking on this link : http://localhost:8080/index.php?p=validate&u=' . $login . '&t=' . $temp;
-            $this->mail($login, $email, $body, $subject);
-            return true;
+        if ($this->checkPass($password) === true) {
+            $temp = $this->random();
+            $hash = hash('whirlpool', $password);
+            if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+                return false;
+            }
+            $array = array($login, $hash, $email, $temp, 0);
+            $user = $this->db->prepare('SELECT * FROM users WHERE username = ?', [$login], NULL, true);
+            if (!$user) {
+                $this->db->prepare('INSERT INTO users VALUES ( ?, ?, ?, ?, ?, NULL)', $array, NULL, false, true);
+                $body = 'Please, validate your account by clicking on this link : http://localhost:8080/index.php?p=validate&u=' . $login . '&t=' . $temp;
+                $this->mail($login, $email, $body, $subject);
+                return true;
+            }
         }
         return false;
     }
@@ -138,4 +140,12 @@ class DBAuth {
     public function logged() {
         return isset($_SESSION['auth']);
     }
+
+    public function checkPass($pass) {
+        if ((preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/', $pass) != 1) || empty($pass)) {
+            return false;
+        }
+        return true;
+    }
+
 }
