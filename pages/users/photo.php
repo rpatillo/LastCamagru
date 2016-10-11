@@ -17,7 +17,7 @@ $result = $auth->printPic($_SESSION['auth']);
     <br />
     <label>Image File:</label><br/>
     <input type="file" id="imageLoader" name="imageLoader"/>
-    <canvas id="imageCanvas"></canvas>
+<!--    <canvas id="imageCanvas"></canvas>-->
     <br />
 
     <div id="result"></div>
@@ -29,17 +29,17 @@ $result = $auth->printPic($_SESSION['auth']);
     <input type="range" id="myRangeX" value="90">
     <input type="range" id="myRangeY" value="90">
     <div>
-        <form>
+        <form style="display: inline-flex;">
             <div>
-                <img class='photos' id="photo1" src="/img/photo.png" >
+                <img class='photos' id="photo1" src="public/img/photo.png" >
                 <input type="radio" id="p1" name="r_btn" value="1">
             </div>
             <div>
-                <img class='photos' id="photo2" src="/img/hat.png" style="width: 130px;">
+                <img class='photos' id="photo2" src="public/img/hat.png" style="width: 130px;">
                 <input type="radio" id="p2" name="r_btn" value="2">
             </div>
             <div>
-                <img class='photos' id="photo3" src="/img/Eyes.png">
+                <img class='photos' id="photo3" src="public/img/Eyes.png">
                 <input type="radio" id="p3" name="r_btn" value="3">
             </div>
 
@@ -55,5 +55,5 @@ $result = $auth->printPic($_SESSION['auth']);
     <?PHP endforeach;?>
 </aside>
 
-<script src="JS/JSphoto.js"></script>
+<script src="public/JS/JSphoto.js"></script>
 

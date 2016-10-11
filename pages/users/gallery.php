@@ -34,7 +34,9 @@ foreach($result as $post) : ?>
                 <div>
                     <div>
                         <p> Photo by <strong><?= $post->username ?></strong> </p>
-                        <?PHP if (isset($_SESSION['auth'])) : ?>
+                        <div <?PHP  if (!isset($_SESSION['auth']))
+                            echo 'class="hidden"';
+                        ?>>
                         <form method='post'>
                             <input type="hidden" name="user" value="<?= $_SESSION['auth'];?>">
                             <input type="hidden" name="owner" value="<?= $post->username; ?>">
@@ -44,12 +46,14 @@ foreach($result as $post) : ?>
                             <br />
                             <button name="subbtn">Envoyer</button>
                         </form>
-                        <?PHP endif ?>
+                        </div>
                     </div>
                     <div>
-                        <?PHP if (isset($_SESSION['auth'])) : ?>
-                        <img name="like" class='photos' style="max-width: 10%" src="/img/like.png">
-                        <?PHP endif ?>
+                        <img name="like" class='photos
+                               <?PHP  if (!isset($_SESSION['auth']))
+                                   echo ' hidden';
+                                   ?>
+                        ' style="max-width: 10%" src="public/img/like.png">
                         <div name="nb_like"><?= $auth->printLikes($post->id); ?> like this.</div>
                     </div>
                 </div>
@@ -85,4 +89,4 @@ for ($i = 1; $i <= $nbPage; $i++) {
 
 
 
-<script src="JS/Gallery.js"></script>
+<script src="public/JS/Gallery.js"></script>

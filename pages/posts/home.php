@@ -31,7 +31,7 @@ $form = new \Core\HTML\BootstrapForm($_POST);
 ?>
 <div class="container">
     <div class="row">
-        <div class="col-xs-6"><img src="img/home_photo.png" alt="home_photo" height=80% width=80%></div>
+        <div class="col-xs-6"><img src="public/img/home_photo.png" alt="home_photo" height=80% width=80%></div>
         <div class="col-xs-6">
             <h1>Camagru</h1>
             <h3>Create an account and take / share pictures !</h3>

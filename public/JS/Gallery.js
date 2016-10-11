@@ -14,7 +14,6 @@ var nb_like = document.getElementsByName("nb_like");
 var id_photo = document.getElementsByName("id_photo");
 var table = document.getElementsByName('tablegal');
 
-console.log(owner);
 // When the user clicks on the button, open the modal
 for (i = 0; i < pict.length; i++){
     (function(i){
@@ -52,7 +51,7 @@ for (i = 0; i < pict.length; i++){
                     table[i].innerHTML = xhttp.responseText;
                 }
             };
-            xhttp.open("POST", "/includes/savecom.php", true);
+            xhttp.open("POST", "/public/includes/savecom.php", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send('t=' + text[i].value + '&u=' + user[i].value + '&id=' + id_photo[i].value + '&o=' + owner[i].value);
         };
@@ -70,7 +69,7 @@ for (i = 0; i < pict.length; i++) {
                     nb_like[i].innerHTML = xhttp.responseText + ' like this.';
                 }
             };
-            xhttp.open("POST", "/includes/savelike.php", true);
+            xhttp.open("POST", "/public/includes/savelike.php", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send('&u=' + user[i].value + '&id=' + id_photo[i].value);
         };

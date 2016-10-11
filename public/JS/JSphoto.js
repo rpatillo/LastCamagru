@@ -83,9 +83,9 @@
                 aside.innerHTML = xhttp.responseText;
             }
         };
-        xhttp.open("POST", "/includes/savepic.php", true);
+        xhttp.open("POST", "/public/includes/savepic.php", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send('photo=' + res + '&mX=' + x + '&mY=' + y + '&s=' + select);
+        xhttp.send('photo=' + res + '&mX=' + x + '&mY=' + y + '&nb=' + select);
         ev.preventDefault();
     }, false);
 
@@ -100,7 +100,7 @@
                             aside.innerHTML = xhttp.responseText;
                         }
                     };
-                    xhttp.open("POST", "/includes/delpic.php", true);
+                    xhttp.open("POST", "/public/includes/delpic.php", true);
                     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                     xhttp.send('id=' + this.id);
                     ev.preventDefault();

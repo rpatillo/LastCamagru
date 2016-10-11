@@ -27,7 +27,7 @@ function RetCom($id) {
     }
 }
 
-if (!empty($_POST)) {
+if (!empty($_POST) && isset($_POST['u'])) {
     $auth = new \Core\Auth\Photos(App::getInstance()->getDb());
     $auth2 = new \Core\Auth\DBAuth(App::getInstance()->getDb());
     $tmp = strip_tags($_POST['t']);

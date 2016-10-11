@@ -20,20 +20,25 @@ define('ROOT', dirname(dirname(__DIR__)));
     $im = imagecreatefromstring($tmp);
 
 
+    $stmp = imagecreatefrompng(ROOT . '/public/img/photo.png');
+    $temp = ROOT . '/public/img/photo.png';
     if ($_POST['nb'] === '1') {
         $stmp = imagecreatefrompng(ROOT . '/public/img/photo.png');
+        $temp = ROOT . '/public/img/photo.png';
     } elseif ($_POST['nb'] === '2') {
-        $stmp = ROOT . '/public/img/hat.png';
+        $stmp = imagecreatefrompng(ROOT . '/public/img/hat.png');
+        $temp = ROOT . '/public/img/hat.png';
     } elseif ($_POST['nb'] === '3') {
-        $stmp = ROOT . '/public/img/Eyes.png';
+        $stmp = imagecreatefrompng(ROOT . '/public/img/Eyes.png');
+        $temp = ROOT . '/public/img/Eyes.png';
     }
 
     $marginX = $_POST['mX'];
     $marginY = $_POST['mY'];
-    $sx = imagesx($stmp);
-    $sy = imagesy($stmp);
+    $sx = imagesx(imagecreatefrompng($temp));
+    $sy = imagesy(imagecreatefrompng($temp));
 
-    imagecopy($im, $stmp, imagesx($im) - $sx - $marginX, imagesy($im) - $sy - $marginY, 0, 0, imagesx($stmp), imagesy($stmp));
+    imagecopy($im, $temp, imagesx($im) - $sx - $marginX, imagesy($im) - $sy - $marginY, 0, 0, $sx, $sy);
 
     ob_start();
         imagepng($im);

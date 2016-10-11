@@ -9,9 +9,9 @@
   <title><?= App::getInstance()->title; ?></title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/normalize.min.css">
-  <link rel="stylesheet" href="css/grid12.css">
+  <link rel="stylesheet" href="public/css/main.css">
+  <link rel="stylesheet" href="public/css/normalize.min.css">
+  <link rel="stylesheet" href="public/css/grid12.css">
 </head>
 
 <body>
