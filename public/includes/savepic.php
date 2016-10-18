@@ -19,9 +19,6 @@ define('ROOT', dirname(dirname(__DIR__)));
     $tmp = base64_decode($tmp);
     $im = imagecreatefromstring($tmp);
 
-
-    $stmp = imagecreatefrompng(ROOT . '/public/img/photo.png');
-    $temp = ROOT . '/public/img/photo.png';
     if ($_POST['nb'] === '1') {
         $stmp = imagecreatefrompng(ROOT . '/public/img/photo.png');
         $temp = ROOT . '/public/img/photo.png';
@@ -35,13 +32,15 @@ define('ROOT', dirname(dirname(__DIR__)));
 
     $marginX = $_POST['mX'];
     $marginY = $_POST['mY'];
-    $sx = imagesx(imagecreatefrompng($temp));
-    $sy = imagesy(imagecreatefrompng($temp));
+    $sx = imagesx($stmp);
+    $sy = imagesy($stmp);
 
-    imagecopy($im, $temp, imagesx($im) - $sx - $marginX, imagesy($im) - $sy - $marginY, 0, 0, $sx, $sy);
+    imagecopy($im, $stmp, imagesx($im) - $sx - $marginX, imagesy($im) - $sy - $marginY, 0, 0, $sx, $sy);
+    imagedestroy($stmp);
 
     ob_start();
         imagepng($im);
+        imagedestroy($im);
         $image_data = ob_get_contents();
     ob_end_clean();
 

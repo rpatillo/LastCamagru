@@ -27,7 +27,7 @@ function RetCom($id) {
     }
 }
 
-if (!empty($_POST) && isset($_POST['u'])) {
+if (!empty($_POST) && !empty($_POST['t'])) {
     $auth = new \Core\Auth\Photos(App::getInstance()->getDb());
     $auth2 = new \Core\Auth\DBAuth(App::getInstance()->getDb());
     $tmp = strip_tags($_POST['t']);
@@ -36,5 +36,6 @@ if (!empty($_POST) && isset($_POST['u'])) {
     $mail = $mail[0]->mail;
     $body = 'Hi ! Your photo as received a comments.';
     $auth2->mail($_POST['o'], $mail, $body, 'New comments from ' . $_POST['u']);
-    return RetCom($_POST['id']);
 }
+
+return RetCom($_POST['id']);
